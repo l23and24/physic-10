@@ -1,266 +1,279 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Механічні властивості твердих тіл</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Механічні властивості твердих тіл</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-        .main-bg {
-            background-color: #f8fafc;
-        }
+body {
+font-family: 'Inter', sans-serif;
+scroll-behavior: smooth;
+}
 
-        .card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            transition: border-color 0.2s;
-        }
+.main-bg {
+background-color: #f8fafc;
+}
 
-        .card:hover {
-            border-color: #cbd5e1;
-        }
+.card {
+background: white;
+border: 1px solid #e2e8f0;
+border-radius: 0.75rem;
+transition: border-color 0.2s;
+}
 
-        .step-number {
-            background: #475569;
-            color: white;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-right: 1rem;
-            font-size: 0.875rem;
-        }
+.card:hover {
+border-color: #cbd5e1;
+}
 
-        .solution-box {
-            display: none;
-            border-top: 1px solid #e2e8f0;
-            background-color: #fcfcfc;
-        }
+.step-number {
+background: #475569;
+color: white;
+width: 28px;
+height: 28px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 4px;
+font-weight: bold;
+margin-right: 1rem;
+font-size: 0.875rem;
+}
 
-        /* Disable italic globally */
-        * {
-            font-style: normal !important;
-        }
-    </style>
+.solution-box {
+display: none;
+border-top: 1px solid #e2e8f0;
+background-color: #fcfcfc;
+}
+
+/* Disable italic globally */
+* {
+font-style: normal !important;
+}
+</style>
 </head>
 <body class="main-bg text-slate-900 min-h-screen pb-12">
 
-    <!-- Header with restored background -->
-    <header class="border-b border-slate-200 sticky top-0 z-10 bg-slate-50/95 backdrop-blur-md">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-lg font-bold tracking-tight text-slate-800">Фізика 10 клас</h1>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#plan" class="text-slate-500 hover:text-slate-900">План уроку</a>
-                <a href="#practice" class="text-slate-500 hover:text-slate-900">Практика</a>
-                <a href="#homework" class="text-slate-500 hover:text-slate-900">Завдання</a>
-            </nav>
-        </div>
-    </header>
+<!-- Header with restored background -->
+<header class="border-b border-slate-200 sticky top-0 z-10 bg-slate-50/95 backdrop-blur-md">
+<div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+<h1 class="text-lg font-bold tracking-tight text-slate-800">Фізика 10 клас</h1>
+<nav class="hidden md:flex space-x-6 text-sm font-medium">
+<a href="#plan" class="text-slate-500 hover:text-slate-900">План уроку</a>
+<a href="#practice" class="text-slate-500 hover:text-slate-900">Практика</a>
+<a href="#homework" class="text-slate-500 hover:text-slate-900">Завдання</a>
+</nav>
+</div>
+</header>
 
-    <main class="max-w-4xl mx-auto px-4 mt-12">
-        <!-- Title Section -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-slate-900 mb-2">Механічні властивості твердих тіл</h2>
-        </section>
+<main class="max-w-4xl mx-auto px-4 mt-12">
+<!-- Title Section -->
+<section class="mb-16">
+<h2 class="text-3xl font-bold text-slate-900 mb-2">Механічні властивості твердих тіл</h2>
+</section>
 
-        <!-- Lesson Plan -->
-        <div id="plan" class="space-y-4">
-            
-            <!-- I. Organizational -->
-            <div class="card p-6">
-                <div class="flex items-center">
-                    <div class="step-number">I</div>
-                    <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Організаційний етап</h3>
-                </div>
-            </div>
+<!-- Lesson Plan -->
+<div id="plan" class="space-y-4">
 
-            <!-- II. Basic Knowledge -->
-            <div class="card p-6">
-                <div class="flex items-center mb-4">
-                    <div class="step-number">II</div>
-                    <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Актуалізація опорних знань</h3>
-                </div>
-                <p class="mb-4 text-slate-600">Повторення матеріалу про деформації та сили пружності.</p>
-                <button onclick="toggleSection('knowledge')" class="border border-slate-200 bg-white px-4 py-2 rounded text-sm font-semibold hover:bg-slate-50 transition shadow-sm">
-                    Розгорнути питання
-                </button>
-                <div id="knowledge" class="hidden mt-4 pt-4 border-t border-slate-50">
-                    <ul class="space-y-3 text-slate-700">
-                        <li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Що називають деформацією тіла?</li>
-                        <li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Які існують види деформацій за характером відновлення форми?</li>
-                        <li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Яку силу називають силою пружності?</li>
-                    </ul>
-                </div>
-            </div>
+<!-- I. Organizational -->
+<div class="card p-6">
+<div class="flex items-center">
+<div class="step-number">I</div>
+<h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Організаційний етап</h3>
+</div>
+</div>
 
-            <!-- III. New Topic -->
-            <div class="card p-6">
-                <div class="flex items-center mb-4">
-                    <div class="step-number">III</div>
-                    <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Вивчення нового матеріалу</h3>
-                </div>
-                <p class="text-slate-600 mb-4">Розгляд фізичних величин, що характеризують механічні властивості тіл.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="p-4 border border-slate-200 rounded bg-slate-50/50">
-                        <p class="text-xs font-bold text-slate-400 uppercase mb-2">Параметри</p>
-                        <ul class="space-y-1 text-sm text-slate-700 font-medium">
+<!-- II. Basic Knowledge -->
+<div class="card p-6">
+<div class="flex items-center mb-4">
+<div class="step-number">II</div>
+<h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Актуалізація опорних знань</h3>
+</div>
+<p class="mb-4 text-slate-600">Повторення матеріалу про деформації та сили пружності.</p>
+<button onclick="toggleSection('knowledge')" class="border border-slate-200 bg-white px-4 py-2 rounded text-sm font-semibold hover:bg-slate-50 transition shadow-sm">
+Розгорнути питання
+</button>
+<div id="knowledge" class="hidden mt-4 pt-4 border-t border-slate-50">
+<ul class="space-y-3 text-slate-700">
+<li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Що називають деформацією тіла?</li>
+<li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Які існують види деформацій за характером відновлення форми?</li>
+<li class="flex items-start"><span class="mr-2 text-slate-400">—</span> Яку силу називають силою пружності?</li>
+</ul>
+</div>
+</div>
+
+<!-- III. New Topic -->
+<div class="card p-6">
+<div class="flex items-center mb-4">
+<div class="step-number">III</div>
+<h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Вивчення нового матеріалу</h3>
+</div>
+<p class="text-slate-600 mb-4">Розгляд фізичних величин, що характеризують механічні властивості тіл.</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div class="p-4 border border-slate-200 rounded bg-slate-50/50">
+<p class="text-xs font-bold text-slate-400 uppercase mb-2">Параметри</p>
+<ul class="space-y-1 text-sm text-slate-700 font-medium">
+                            <li>Механічна напруга ($\sigma$)</li>
+                            <li>Відносна деформація ($\varepsilon$)</li>
+                            <li>Модуль пружності (Юнга) ($E$)</li>
                             <li>Механічна напруга
                             <li>Відносна деформація 
-                            <li>Модуль пружності (Юнга)
-                </div>
+                            <li>Модуль пружності (Юнга) 
+</ul>
+</div>
+<div class="p-4 border border-slate-200 rounded bg-slate-50/50">
+<p class="text-xs font-bold text-slate-400 uppercase mb-2">Формули</p>
+<div class="space-y-2 text-sm font-mono">
+<p>$\sigma = F/S$</p>
+<p>$\sigma = E \cdot |\varepsilon|$</p>
+</div>
+</div>
+</div>
 
-                <button onclick="toggleSection('new-topic')" class="bg-slate-900 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-slate-800 transition">
-                    Детальніше про тему
-                </button>
-                
-                <div id="new-topic" class="hidden mt-4 pt-4 border-t border-slate-100">
-                    <p class="text-slate-700 leading-relaxed">
-                        Механічна напруга — це фізична величина, яка характеризує стан деформованого тіла і дорівнює відношенню модуля сили пружності до площі поперечного перерізу тіла.
-                    </p>
-                </div>
-            </div>
+<button onclick="toggleSection('new-topic')" class="bg-slate-900 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-slate-800 transition">
+Детальніше про тему
+</button>
 
-            <!-- IV. Practice -->
-            <div id="practice" class="card overflow-hidden">
-                <div class="p-6 bg-slate-50/50 border-b border-slate-100">
-                    <div class="flex items-center">
-                        <div class="step-number">IV</div>
-                        <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Закріплення нових знань</h3>
-                    </div>
-                </div>
+<div id="new-topic" class="hidden mt-4 pt-4 border-t border-slate-100">
+<p class="text-slate-700 leading-relaxed">
+Механічна напруга — це фізична величина, яка характеризує стан деформованого тіла і дорівнює відношенню модуля сили пружності до площі поперечного перерізу тіла.
+</p>
+</div>
+</div>
 
-                <div class="divide-y divide-slate-100">
-                    <!-- Task 1 -->
-                    <div class="p-6 bg-white">
-                        <p class="font-medium text-slate-800 mb-4 leading-relaxed">
-                            1. Яка механічна напруга виникає в шийці гака підйомного крана під час рівномірного піднімання вантажу масою 6 т? Діаметр шийки гака 28 мм.
-                        </p>
-                        <button onclick="toggleSolution('sol1')" class="text-sm font-bold text-slate-500 hover:text-slate-900 flex items-center">
-                            Показати хід розв'язання
-                        </button>
-                        <div id="sol1" class="solution-box mt-4 p-6 rounded">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-                                <div>
-                                    <p class="font-bold text-slate-400 uppercase text-xs mb-2">Дано</p>
-                                    <p>$m = 6000 \text{ кг}$</p>
-                                    <p>$d = 0,028 \text{ м}$</p>
-                                    <p>$g = 10 \text{ м/с}^2$</p>
-                                    <p class="mt-2 pt-2 border-t font-bold text-slate-900">$\sigma - ?$</p>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-400 uppercase text-xs mb-2">Аналіз</p>
-                                    <p>$\sigma = F/S$</p>
-                                    <p>$F = mg$</p>
-                                    <p>$S = \pi d^2 / 4$</p>
-                                    <p class="mt-2 font-bold text-slate-900">$\sigma = \frac{4mg}{\pi d^2}$</p>
-                                    <p class="mt-2 pt-2 border-t font-bold text-blue-600">Відповідь: 97,5 МПа</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- IV. Practice -->
+<div id="practice" class="card overflow-hidden">
+<div class="p-6 bg-slate-50/50 border-b border-slate-100">
+<div class="flex items-center">
+<div class="step-number">IV</div>
+<h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Закріплення нових знань</h3>
+</div>
+</div>
 
-                    <!-- Task 2 -->
-                    <div class="p-6 bg-white">
-                        <p class="font-medium text-slate-800 mb-4 leading-relaxed">
-                            2. Циліндр, площа перерізу якого 2 см², під дією вантажу масою 1,05 т стиснувся на 0,025 % початкової довжини. Визначте модуль Юнга матеріалу.
-                        </p>
-                        <button onclick="toggleSolution('sol2')" class="text-sm font-bold text-slate-500 hover:text-slate-900 flex items-center">
-                            Показати хід розв'язання
-                        </button>
-                        <div id="sol2" class="solution-box mt-4 p-6 rounded">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-                                <div>
-                                    <p class="font-bold text-slate-400 uppercase text-xs mb-2">Дано</p>
-                                    <p>$S = 2 \cdot 10^{-4} \text{ м}^2$</p>
-                                    <p>$m = 1050 \text{ кг}$</p>
-                                    <p>$\varepsilon = 0,00025$</p>
-                                    <p class="mt-2 pt-2 border-t font-bold text-slate-900">$E - ?$</p>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-400 uppercase text-xs mb-2">Аналіз</p>
-                                    <p>$E = \sigma / \varepsilon$</p>
-                                    <p>$\sigma = mg / S$</p>
-                                    <p class="mt-2 font-bold text-slate-900">$E = \frac{mg}{S \cdot \varepsilon}$</p>
-                                    <p class="mt-2 pt-2 border-t font-bold text-blue-600">Відповідь: 210 ГПа</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="divide-y divide-slate-100">
+<!-- Task 1 -->
+<div class="p-6 bg-white">
+<p class="font-medium text-slate-800 mb-4 leading-relaxed">
+1. Яка механічна напруга виникає в шийці гака підйомного крана під час рівномірного піднімання вантажу масою 6 т? Діаметр шийки гака 28 мм.
+</p>
+<button onclick="toggleSolution('sol1')" class="text-sm font-bold text-slate-500 hover:text-slate-900 flex items-center">
+Показати хід розв'язання
+</button>
+<div id="sol1" class="solution-box mt-4 p-6 rounded">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+<div>
+<p class="font-bold text-slate-400 uppercase text-xs mb-2">Дано</p>
+<p>$m = 6000 \text{ кг}$</p>
+<p>$d = 0,028 \text{ м}$</p>
+<p>$g = 10 \text{ м/с}^2$</p>
+<p class="mt-2 pt-2 border-t font-bold text-slate-900">$\sigma - ?$</p>
+</div>
+<div>
+<p class="font-bold text-slate-400 uppercase text-xs mb-2">Аналіз</p>
+<p>$\sigma = F/S$</p>
+<p>$F = mg$</p>
+<p>$S = \pi d^2 / 4$</p>
+<p class="mt-2 font-bold text-slate-900">$\sigma = \frac{4mg}{\pi d^2}$</p>
+<p class="mt-2 pt-2 border-t font-bold text-blue-600">Відповідь: 97,5 МПа</p>
+</div>
+</div>
+</div>
+</div>
 
-            <!-- V. Summary -->
-            <div class="card p-6">
-                <div class="flex items-center mb-2">
-                    <div class="step-number">V</div>
-                    <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Підсумки уроку</h3>
-                </div>
-                <p class="text-slate-600">Узагальнення знань про зв'язок між механічною напругою та деформацією тіл.</p>
-            </div>
+<!-- Task 2 -->
+<div class="p-6 bg-white">
+<p class="font-medium text-slate-800 mb-4 leading-relaxed">
+2. Циліндр, площа перерізу якого 2 см², під дією вантажу масою 1,05 т стиснувся на 0,025 % початкової довжини. Визначте модуль Юнга матеріалу.
+</p>
+<button onclick="toggleSolution('sol2')" class="text-sm font-bold text-slate-500 hover:text-slate-900 flex items-center">
+Показати хід розв'язання
+</button>
+<div id="sol2" class="solution-box mt-4 p-6 rounded">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+<div>
+<p class="font-bold text-slate-400 uppercase text-xs mb-2">Дано</p>
+<p>$S = 2 \cdot 10^{-4} \text{ м}^2$</p>
+<p>$m = 1050 \text{ кг}$</p>
+<p>$\varepsilon = 0,00025$</p>
+<p class="mt-2 pt-2 border-t font-bold text-slate-900">$E - ?$</p>
+</div>
+<div>
+<p class="font-bold text-slate-400 uppercase text-xs mb-2">Аналіз</p>
+<p>$E = \sigma / \varepsilon$</p>
+<p>$\sigma = mg / S$</p>
+<p class="mt-2 font-bold text-slate-900">$E = \frac{mg}{S \cdot \varepsilon}$</p>
+<p class="mt-2 pt-2 border-t font-bold text-blue-600">Відповідь: 210 ГПа</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-            <!-- VI. Homework -->
-            <div id="homework" class="card p-8 border-2 border-slate-900 bg-white">
-                <div class="flex items-center mb-4">
-                    <div class="step-number !bg-slate-900">VI</div>
-                    <h3 class="font-bold text-slate-900 uppercase tracking-wide text-sm">Домашнє завдання</h3>
-                </div>
-                <div class="space-y-3 font-medium">
-                    <div class="flex items-start">
-                        <span class="mr-3 text-slate-400">1.</span>
-                        <p>Вивчити теоретичний матеріал за § 35 підручника.</p>
-                    </div>
-                    <div class="flex items-start">
-                        <span class="mr-3 text-slate-400">2.</span>
+<!-- V. Summary -->
+<div class="card p-6">
+<div class="flex items-center mb-2">
+<div class="step-number">V</div>
+<h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Підсумки уроку</h3>
+</div>
+<p class="text-slate-600">Узагальнення знань про зв'язок між механічною напругою та деформацією тіл.</p>
+</div>
+
+<!-- VI. Homework -->
+<div id="homework" class="card p-8 border-2 border-slate-900 bg-white">
+<div class="flex items-center mb-4">
+<div class="step-number !bg-slate-900">VI</div>
+<h3 class="font-bold text-slate-900 uppercase tracking-wide text-sm">Домашнє завдання</h3>
+</div>
+<div class="space-y-3 font-medium">
+<div class="flex items-start">
+<span class="mr-3 text-slate-400">1.</span>
+<p>Вивчити теоретичний матеріал за § 35 підручника.</p>
+</div>
+<div class="flex items-start">
+<span class="mr-3 text-slate-400">2.</span>
+                        <p>Розв'язати задачу № 3 з Вправи 35.</p>
                         <p>Розв'язати задачу № 3 з вправи № 35.</p>
-                    </div>
-                </div>
-            </div>
+</div>
+</div>
+</div>
 
-        </div>
-    </main>
+</div>
+</main>
 
-    <footer class="max-w-4xl mx-auto px-4 mt-20 pt-8 border-t border-slate-200 text-slate-400 text-xs flex justify-between">
-        <p>Навчальний матеріал: Фізика 10 клас</p>
-        <p>2024</p>
-    </footer>
+<footer class="max-w-4xl mx-auto px-4 mt-20 pt-8 border-t border-slate-200 text-slate-400 text-xs flex justify-between">
+<p>Навчальний матеріал: Фізика 10 клас</p>
+<p>2024</p>
+</footer>
 
-    <!-- MathJax for Formulas -->
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax for Formulas -->
+<script>
+window.MathJax = {
+tex: {
+inlineMath: [['$', '$'], ['\\(', '\\)']],
+displayMath: [['$$', '$$'], ['\\[', '\\]']]
+}
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <script>
-        function toggleSection(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('hidden');
-        }
+<script>
+function toggleSection(id) {
+const el = document.getElementById(id);
+el.classList.toggle('hidden');
+}
 
-        function toggleSolution(id) {
-            const el = document.getElementById(id);
-            if (el.style.display === "block") {
-                el.style.display = "none";
-            } else {
-                el.style.display = "block";
-            }
-        }
-    </script>
+function toggleSolution(id) {
+const el = document.getElementById(id);
+if (el.style.display === "block") {
+el.style.display = "none";
+} else {
+el.style.display = "block";
+}
+}
+</script>
 </body>
 </html>
