@@ -88,3 +88,243 @@
     </style>
 </head>
 <body class="main-bg text-slate-900 min-h-screen pb-12">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 sticky top-0 z-50 bg-white/80 backdrop-blur-xl">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-400 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                    <i class="fas fa-atom fa-lg"></i>
+                </div>
+                <h1 class="text-xl font-black tracking-tight text-slate-800">Онлайн-кабінет фізики <span class="text-blue-600">229</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-xs font-black uppercase tracking-widest text-slate-500">
+                <a href="#plan" class="hover:text-blue-600 transition-colors">План</a>
+                <a href="#practice" class="hover:text-emerald-600 transition-colors">Практика</a>
+                <a href="#homework" class="hover:text-red-500 transition-colors">Д/З</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 mt-12">
+        <!-- Hero Section -->
+        <section class="mb-16 text-center">
+            <span class="inline-block px-4 py-1 mb-4 text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase bg-blue-50 border border-blue-100 rounded-full">Навчальний модуль</span>
+            <h2 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">Механічні властивості <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">твердих тіл</span></h2>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">Розглядаємо механічну напругу, деформації та закон Гука через призму фізичних величин та практичних задач.</p>
+        </section>
+
+        <div id="plan" class="space-y-8">
+
+            <!-- I. Organizational -->
+            <div class="card p-6 flex items-center border-l-4 border-blue-500">
+                <div class="step-number bg-step-1 shadow-lg shadow-blue-100">I</div>
+                <div>
+                    <h3 class="font-black text-blue-600 uppercase tracking-widest text-[10px] mb-1">Початок</h3>
+                    <p class="font-bold text-slate-800 text-lg">Організаційний етап</p>
+                </div>
+            </div>
+
+            <!-- II. Basic Knowledge -->
+            <div class="card p-8 border-l-4 border-purple-500">
+                <div class="flex items-center mb-8">
+                    <div class="step-number bg-step-2 shadow-lg shadow-purple-100">II</div>
+                    <div>
+                        <h3 class="font-black text-purple-600 uppercase tracking-widest text-[10px] mb-1">Повторення</h3>
+                        <p class="font-bold text-slate-800 text-lg">Актуалізація опорних знань</p>
+                    </div>
+                </div>
+                <div class="bg-purple-50/50 rounded-2xl p-6 border border-purple-100">
+                    <div class="flex items-center text-purple-700 font-bold mb-6">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-3 shadow-sm">
+                            <i class="fas fa-question text-sm"></i>
+                        </div>
+                        Контрольні питання для перевірки:
+                    </div>
+                    <button onclick="toggleSection('knowledge')" class="group bg-purple-600 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-purple-700 transition-all shadow-md hover:shadow-purple-200">
+                        Відкрити список <i class="fas fa-chevron-down ml-2 group-hover:translate-y-1 transition-transform"></i>
+                    </button>
+                    
+                    <div id="knowledge" class="hidden space-y-3 mt-6 animate-fadeIn">
+                        <div class="p-4 bg-white/80 rounded-xl border border-purple-100 flex items-center shadow-sm">
+                            <i class="fas fa-check-circle text-purple-400 mr-4"></i>
+                            <p class="text-slate-700 font-medium">Що називають деформацією тіла?</p>
+                        </div>
+                        <div class="p-4 bg-white/80 rounded-xl border border-purple-100 flex items-center shadow-sm">
+                            <i class="fas fa-check-circle text-purple-400 mr-4"></i>
+                            <p class="text-slate-700 font-medium">Які існують види деформацій?</p>
+                        </div>
+                        <div class="p-4 bg-white/80 rounded-xl border border-purple-100 flex items-center shadow-sm">
+                            <i class="fas fa-check-circle text-purple-400 mr-4"></i>
+                            <p class="text-slate-700 font-medium">Яку силу називають силою пружності?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- III. New Topic -->
+            <div class="card p-8 border-l-4 border-amber-500">
+                <div class="flex items-center mb-8">
+                    <div class="step-number bg-step-3 shadow-lg shadow-amber-100">III</div>
+                    <div>
+                        <h3 class="font-black text-amber-600 uppercase tracking-widest text-[10px] mb-1">Нова тема</h3>
+                        <p class="font-bold text-slate-800 text-lg">Вивчення нового матеріалу</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="p-6 rounded-2xl bg-amber-50/50 border border-amber-100">
+                        <p class="text-[10px] font-black text-amber-600 uppercase mb-4 tracking-[0.2em]">Величини</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-slate-700 font-semibold">
+                                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span> Механічна напруга ($\sigma$)
+                            </li>
+                            <li class="flex items-center text-slate-700 font-semibold">
+                                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span> Відносна деформація ($\varepsilon$)
+                            </li>
+                            <li class="flex items-center text-slate-700 font-semibold">
+                                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span> Модуль Юнга ($E$)
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="formula-container p-6 flex flex-col justify-center space-y-6">
+                        <p class="text-[10px] font-black text-blue-500 uppercase mb-2 tracking-[0.2em]">Математична модель</p>
+                        <div class="math-display text-center">
+                            $$\sigma = \frac{F}{S}$$
+                        </div>
+                        <div class="math-display text-center">
+                            $$\sigma = E \cdot |\varepsilon|$$
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="toggleSection('new-topic')" class="text-amber-700 font-black text-xs uppercase tracking-widest flex items-center hover:opacity-70 transition-opacity">
+                    <i class="fas fa-plus-circle mr-2"></i> Додаткова інформація про модуль Юнга
+                </button>
+
+                <div id="new-topic" class="hidden mt-6 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                    <p class="text-slate-600 leading-relaxed italic">
+                        Механічна напруга характеризує інтенсивність внутрішніх сил, що виникають у деформованому тілі. Модуль Юнга (E) залежить тільки від властивостей матеріалу.
+                    </p>
+                </div>
+            </div>
+
+            <!-- IV. Practice -->
+            <div id="practice" class="card overflow-hidden border-l-4 border-emerald-500">
+                <div class="p-8 bg-emerald-50/30 border-b border-emerald-100 flex items-center">
+                    <div class="step-number bg-step-4 shadow-lg shadow-emerald-100">IV</div>
+                    <div>
+                        <h3 class="font-black text-emerald-600 uppercase tracking-widest text-[10px] mb-1">Практикум</h3>
+                        <p class="font-bold text-slate-800 text-lg">Розв'язування задач</p>
+                    </div>
+                </div>
+
+                <div class="divide-y divide-emerald-50">
+                    <!-- Task 1 -->
+                    <div class="p-8 hover:bg-emerald-50/10 transition-colors">
+                        <div class="flex items-start space-x-6">
+                            <div class="bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-md shadow-sm">74.1</div>
+                            <p class="font-semibold text-slate-800 leading-relaxed text-lg">
+                                Яка механічна напруга виникає в шийці гака підйомного крана під час рівномірного піднімання вантажу масою 6 т? Діаметр шийки гака 28 мм.
+                            </p>
+                        </div>
+                        <div class="mt-8">
+                            <a href="https://l23and24.github.io/mylessonplan-10_exercises/lesson-74/part-1.html" target="_blank" class="inline-flex items-center px-6 py-3 bg-emerald-50 text-emerald-700 rounded-xl font-black text-xs tracking-widest hover:bg-emerald-100 transition-all border border-emerald-200">
+                                <i class="fas fa-external-link-alt mr-3"></i>ПЕРЕГЛЯНУТИ РОЗВ'ЯЗАННЯ
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Task 2 -->
+                    <div class="p-8 hover:bg-emerald-50/10 transition-colors">
+                        <div class="flex items-start space-x-6">
+                            <div class="bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-md shadow-sm">74.2</div>
+                            <p class="font-semibold text-slate-800 leading-relaxed text-lg">
+                                Циліндр, площа перерізу якого 2 см², під дією вантажу масою 1,05 т стиснувся на 0,025 % початкової довжини. Визначте модуль Юнга матеріалу.
+                            </p>
+                        </div>
+                        <div class="mt-8">
+                            <a href="https://l23and24.github.io/mylessonplan-10_exercises/lesson-74/part-2.html" target="_blank" class="inline-flex items-center px-6 py-3 bg-emerald-50 text-emerald-700 rounded-xl font-black text-xs tracking-widest hover:bg-emerald-100 transition-all border border-emerald-200">
+                                <i class="fas fa-external-link-alt mr-3"></i>ПЕРЕГЛЯНУТИ РОЗВ'ЯЗАННЯ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- V. Summary -->
+            <div class="card p-6 flex items-center border-l-4 border-red-400">
+                <div class="step-number bg-step-5 shadow-lg shadow-red-100">V</div>
+                <div>
+                    <h3 class="font-black text-red-500 uppercase tracking-widest text-[10px] mb-1">Підсумок</h3>
+                    <p class="font-bold text-slate-800">Узагальнення знань та бліц-опитування</p>
+                </div>
+            </div>
+
+            <!-- VI. Homework -->
+            <div id="homework" class="card p-10 border-l-4 border-slate-600 bg-gradient-to-br from-slate-50 to-white">
+                <div class="flex items-center mb-8">
+                    <div class="step-number bg-step-6 shadow-xl">VI</div>
+                    <div>
+                        <h3 class="font-black text-slate-500 uppercase tracking-widest text-[10px] mb-1">Додому</h3>
+                        <p class="font-black text-2xl text-slate-800">Домашнє завдання</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Підручник</p>
+                        <p class="text-slate-700 font-bold">Опрацювати § 35</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                        <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Письмово</p>
+                        <p class="text-slate-700 font-bold">Вправа 35, задача № 3</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-4xl mx-auto px-6 mt-20 pt-10 border-t border-slate-200 text-slate-400 text-[10px] font-bold uppercase tracking-[0.3em] pb-10">
+        <div class="flex flex-col items-center space-y-6">
+            <span class="text-slate-900 text-center">Онлайн-кабінет фізики 229</span>
+            <div class="flex space-x-12 text-lg text-slate-300">
+                <i class="fab fa-youtube hover:text-red-500 transition-colors cursor-pointer"></i>
+                <i class="fab fa-telegram-plane hover:text-blue-500 transition-colors cursor-pointer"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- UI Logic -->
+    <script>
+        function toggleSection(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                el.classList.add('animate-fadeIn');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
