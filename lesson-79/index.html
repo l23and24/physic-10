@@ -20,7 +20,7 @@
             justify-content: center;
             overflow-x: hidden;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
         }
 
         .book-container {
@@ -28,13 +28,12 @@
             width: 450px;
             height: 600px;
             perspective: 2000px;
-            transition: all 0.3s ease;
         }
 
         @media (max-width: 500px) {
             .book-container {
-                width: 320px;
-                height: 450px;
+                width: 90vw;
+                height: 70vh;
             }
         }
 
@@ -71,18 +70,51 @@
             background: white;
         }
 
+        /* Прошарок для кліку, щоб не блокувати гортання на телефонах */
         .click-layer {
             position: absolute;
-            inset: 0;
-            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 25%; /* Тільки ліва частина для гортання назад? Ні, краще всю, крім кнопок */
+            height: 100%;
+            z-index: 30;
             background: transparent;
+        }
+
+        .pdf-container {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
 
         .pdf-viewer {
             width: 100%;
             height: 100%;
             border: none;
-            z-index: 10;
+        }
+
+        /* Кнопка "Відкрити на весь екран" для мобільних */
+        .mobile-pdf-btn {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ef4444;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 50;
+            white-space: nowrap;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .mobile-pdf-btn {
+                display: block;
+            }
         }
 
         .page-back {
@@ -99,7 +131,6 @@
             transform: rotateY(-180deg);
         }
 
-        /* Початкове розшарування сторінок (5 сторінок тепер) */
         #p1 { z-index: 50; }
         #p2 { z-index: 40; }
         #p3 { z-index: 30; }
@@ -107,8 +138,8 @@
         #p5 { z-index: 10; }
 
         .btn-reset {
-            margin-top: 30px;
-            padding: 12px 30px;
+            margin-top: 25px;
+            padding: 10px 25px;
             background: #10b981;
             color: white;
             border-radius: 99px;
@@ -116,6 +147,11 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.2s;
             z-index: 100;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
         }
 
         .egg {
@@ -127,17 +163,12 @@
             animation: float 4s ease-in-out infinite;
             z-index: -1;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
     </style>
 </head>
 <body>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center text-balance">Конспект уроку</h1>
-    <h2 class="text-lg md:text-xl text-green-600 mb-6 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
+    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center text-balance px-4">Конспект уроку</h1>
+    <h2 class="text-lg md:text-xl text-green-600 mb-4 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
 
     <div class="egg" style="top: 10%; left: 5%;"></div>
     <div class="egg" style="top: 15%; right: 5%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
@@ -147,48 +178,63 @@
             
             <!-- СТОРІНКА 1: ОБКЛАДИНКА -->
             <div id="p1" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10">
+                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10 text-center">
                     <div class="text-6xl md:text-8xl mb-4">📖</div>
-                    <h2 class="text-xl md:text-3xl font-bold text-yellow-800 text-center uppercase">План підготовки</h2>
-                    <div class="w-16 md:w-24 h-1.5 bg-yellow-400 my-4"></div>
-                    <p class="text-center italic text-gray-700 text-sm md:text-lg">Торкніться, щоб відкрити</p>
+                    <h2 class="text-xl md:text-3xl font-bold text-yellow-800 uppercase">План підготовки</h2>
+                    <div class="w-16 md:w-24 h-1.5 bg-yellow-400 my-4 mx-auto"></div>
+                    <p class="italic text-gray-700 text-sm md:text-lg">Торкніться, щоб відкрити</p>
                     <div class="mt-6 text-4xl">🪺</div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- СТОРІНКА 2: 1.pdf -->
-            <div id="p2" class="page" onclick="handleFlip(this)">
+            <div id="p2" class="page">
                 <div class="page-content">
-                    <div class="click-layer"></div>
-                    <iframe src="1.pdf#view=FitH" class="pdf-viewer"></iframe>
+                    <div class="pdf-container">
+                        <object data="1.pdf" type="application/pdf" class="pdf-viewer">
+                            <p class="p-10 text-center">Ваш браузер не підтримує перегляд PDF всередині. Будь ласка, натисніть на кнопку нижче.</p>
+                        </object>
+                        <a href="1.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 1.pdf</a>
+                        <div class="click-layer" onclick="handleFlip(document.getElementById('p2'))"></div>
+                    </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- СТОРІНКА 3: 2.pdf -->
-            <div id="p3" class="page" onclick="handleFlip(this)">
+            <div id="p3" class="page">
                 <div class="page-content">
-                    <div class="click-layer"></div>
-                    <iframe src="2.pdf#view=FitH" class="pdf-viewer"></iframe>
+                    <div class="pdf-container">
+                        <object data="2.pdf" type="application/pdf" class="pdf-viewer">
+                            <p class="p-10 text-center">Перегляд заблоковано браузером.</p>
+                        </object>
+                        <a href="2.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 2.pdf</a>
+                        <div class="click-layer" onclick="handleFlip(document.getElementById('p3'))"></div>
+                    </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- СТОРІНКА 4: 3.pdf -->
-            <div id="p4" class="page" onclick="handleFlip(this)">
+            <div id="p4" class="page">
                 <div class="page-content">
-                    <div class="click-layer"></div>
-                    <iframe src="3.pdf#view=FitH" class="pdf-viewer"></iframe>
+                    <div class="pdf-container">
+                        <object data="3.pdf" type="application/pdf" class="pdf-viewer">
+                            <p class="p-10 text-center">Використовуйте кнопку для перегляду.</p>
+                        </object>
+                        <a href="3.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 3.pdf</a>
+                        <div class="click-layer" onclick="handleFlip(document.getElementById('p4'))"></div>
+                    </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- СТОРІНКА 5: ФІНАЛ -->
             <div id="p5" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-green-50 border-4 border-green-200 items-center justify-center p-6 md:p-10">
-                    <div class="text-6xl md:text-7xl mb-6 text-center">🎉</div>
-                    <p class="text-xl md:text-2xl font-bold text-green-800 text-center leading-relaxed">
+                <div class="page-content bg-green-50 border-4 border-green-200 items-center justify-center p-6 md:p-10 text-center">
+                    <div class="text-6xl md:text-7xl mb-6">🎉</div>
+                    <p class="text-xl md:text-2xl font-bold text-green-800 leading-relaxed">
                         Ось і казочці кінець, а хто до контрольної роботи підготувався — молодець!
                     </p>
                     <div class="mt-8 text-5xl">🐰🌸</div>
@@ -212,7 +258,6 @@
             if (!page.classList.contains('flipped')) {
                 page.classList.add('flipped');
                 playSound();
-                
                 setTimeout(() => {
                     page.style.zIndex = "1";
                 }, 600);
