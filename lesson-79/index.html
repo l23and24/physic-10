@@ -33,7 +33,7 @@
         @media (max-width: 500px) {
             .book-container {
                 width: 90vw;
-                height: 70vh;
+                height: 75vh;
             }
         }
 
@@ -70,12 +70,10 @@
             background: white;
         }
 
-        /* Прошарок для кліку, щоб не блокувати гортання на телефонах */
         .click-layer {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 25%; /* Тільки ліва частина для гортання назад? Ні, краще всю, крім кнопок */
+            width: 15%;
             height: 100%;
             z-index: 30;
             background: transparent;
@@ -94,29 +92,6 @@
             border: none;
         }
 
-        /* Кнопка "Відкрити на весь екран" для мобільних */
-        .mobile-pdf-btn {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ef4444;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 50;
-            white-space: nowrap;
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            .mobile-pdf-btn {
-                display: block;
-            }
-        }
-
         .page-back {
             position: absolute;
             inset: 0;
@@ -131,11 +106,14 @@
             transform: rotateY(-180deg);
         }
 
-        #p1 { z-index: 50; }
-        #p2 { z-index: 40; }
-        #p3 { z-index: 30; }
-        #p4 { z-index: 20; }
-        #p5 { z-index: 10; }
+        /* Розшарування сторінок (всього 7 сторінок) */
+        #p1 { z-index: 70; }
+        #p2 { z-index: 60; }
+        #p3 { z-index: 50; }
+        #p4 { z-index: 40; }
+        #p5 { z-index: 30; }
+        #p6 { z-index: 20; }
+        #p7 { z-index: 10; }
 
         .btn-reset {
             margin-top: 25px;
@@ -149,11 +127,6 @@
             z-index: 100;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
-
         .egg {
             position: absolute;
             width: 40px;
@@ -163,11 +136,16 @@
             animation: float 4s ease-in-out infinite;
             z-index: -1;
         }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
     </style>
 </head>
 <body>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center text-balance px-4">Конспект уроку</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-1 text-center text-balance px-4">Конспект уроку</h1>
     <h2 class="text-lg md:text-xl text-green-600 mb-4 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
 
     <div class="egg" style="top: 10%; left: 5%;"></div>
@@ -188,56 +166,74 @@
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 2: 1.pdf -->
+            <!-- СТОРІНКА 2: Google Drive PDF 1 -->
             <div id="p2" class="page">
                 <div class="page-content">
                     <div class="pdf-container">
-                        <object data="1.pdf" type="application/pdf" class="pdf-viewer">
-                            <p class="p-10 text-center">Ваш браузер не підтримує перегляд PDF всередині. Будь ласка, натисніть на кнопку нижче.</p>
-                        </object>
-                        <a href="1.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 1.pdf</a>
-                        <div class="click-layer" onclick="handleFlip(document.getElementById('p2'))"></div>
+                        <iframe src="https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/preview" class="pdf-viewer"></iframe>
+                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p2'))"></div>
+                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p2'))"></div>
                     </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 3: 2.pdf -->
+            <!-- СТОРІНКА 3: Google Drive PDF 2 -->
             <div id="p3" class="page">
                 <div class="page-content">
                     <div class="pdf-container">
-                        <object data="2.pdf" type="application/pdf" class="pdf-viewer">
-                            <p class="p-10 text-center">Перегляд заблоковано браузером.</p>
-                        </object>
-                        <a href="2.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 2.pdf</a>
-                        <div class="click-layer" onclick="handleFlip(document.getElementById('p3'))"></div>
+                        <iframe src="https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/preview" class="pdf-viewer"></iframe>
+                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p3'))"></div>
+                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p3'))"></div>
                     </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 4: 3.pdf -->
+            <!-- СТОРІНКА 4: Google Drive PDF 3 -->
             <div id="p4" class="page">
                 <div class="page-content">
                     <div class="pdf-container">
-                        <object data="3.pdf" type="application/pdf" class="pdf-viewer">
-                            <p class="p-10 text-center">Використовуйте кнопку для перегляду.</p>
-                        </object>
-                        <a href="3.pdf" target="_blank" class="mobile-pdf-btn">📄 Відкрити 3.pdf</a>
-                        <div class="click-layer" onclick="handleFlip(document.getElementById('p4'))"></div>
+                        <iframe src="https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/preview" class="pdf-viewer"></iframe>
+                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p4'))"></div>
+                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p4'))"></div>
                     </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 5: ФІНАЛ -->
+            <!-- СТОРІНКА 5: Порада -->
             <div id="p5" class="page" onclick="handleFlip(this)">
+                <div class="page-content bg-blue-50 border-4 border-blue-200 items-center justify-center p-6 md:p-10 text-center">
+                    <div class="text-5xl mb-4">💡</div>
+                    <h2 class="text-xl font-bold text-blue-800 uppercase">Порада</h2>
+                    <p class="text-gray-700 mt-4">Натисніть на значок "квадрат зі стрілкою" у верхньому правому куті PDF, щоб розгорнути файл на весь екран.</p>
+                </div>
+                <div class="page-back"></div>
+            </div>
+
+            <!-- СТОРІНКА 6: Посилання -->
+            <div id="p6" class="page" onclick="handleFlip(this)">
+                <div class="page-content bg-orange-50 border-4 border-orange-200 items-center justify-center p-6 md:p-10 text-center">
+                    <div class="text-5xl mb-4">🔗</div>
+                    <h2 class="text-lg font-bold text-orange-800 uppercase">Прямі посилання</h2>
+                    <div class="flex flex-col gap-2 mt-4 w-full px-4">
+                        <a href="https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 1</a>
+                        <a href="https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 2</a>
+                        <a href="https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 3</a>
+                    </div>
+                </div>
+                <div class="page-back"></div>
+            </div>
+
+            <!-- СТОРІНКА 7: ФІНАЛ -->
+            <div id="p7" class="page" onclick="handleFlip(this)">
                 <div class="page-content bg-green-50 border-4 border-green-200 items-center justify-center p-6 md:p-10 text-center">
-                    <div class="text-6xl md:text-7xl mb-6">🎉</div>
-                    <p class="text-xl md:text-2xl font-bold text-green-800 leading-relaxed">
+                    <div class="text-6xl mb-6">🎉</div>
+                    <p class="text-xl font-bold text-green-800 leading-relaxed">
                         Ось і казочці кінець, а хто до контрольної роботи підготувався — молодець!
                     </p>
-                    <div class="mt-8 text-5xl">🐰🌸</div>
+                    <div class="mt-8 text-4xl">🐰🌸</div>
                 </div>
                 <div class="page-back"></div>
             </div>
@@ -265,23 +261,19 @@
         }
 
         function resetBook() {
-            const p1 = document.getElementById('p1');
-            const p2 = document.getElementById('p2');
-            const p3 = document.getElementById('p3');
-            const p4 = document.getElementById('p4');
-            const p5 = document.getElementById('p5');
-            
-            const pages = [p5, p4, p3, p2, p1];
-            const zIndices = [10, 20, 30, 40, 50];
+            const ids = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'];
+            const pages = ids.map(id => document.getElementById(id));
+            const reversedPages = [...pages].reverse();
+            const zIndices = [10, 20, 30, 40, 50, 60, 70];
 
-            pages.forEach((page, index) => {
+            reversedPages.forEach((page, index) => {
                 setTimeout(() => {
                     if (page.classList.contains('flipped')) {
                         page.classList.remove('flipped');
                         page.style.zIndex = zIndices[index];
                         playSound();
                     }
-                }, index * 150);
+                }, index * 100);
             });
         }
 
