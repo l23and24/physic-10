@@ -22,12 +22,6 @@
             margin: 0;
         }
 
-        .easter-decoration {
-            position: fixed;
-            pointer-events: none;
-            z-index: 10;
-        }
-
         .book-container {
             position: relative;
             width: 400px;
@@ -85,6 +79,7 @@
             transform: rotateY(-180deg);
         }
 
+        /* Порядок сторінок */
         .page:nth-child(1) { z-index: 5; }
         .page:nth-child(2) { z-index: 4; }
         .page:nth-child(3) { z-index: 3; }
@@ -120,7 +115,7 @@
             color: #9ca3af;
         }
 
-        /* Easter Eggs Animation */
+        /* Анімація Великодніх яєць */
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(10deg); }
@@ -134,11 +129,13 @@
             background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             animation: float 4s ease-in-out infinite;
+            z-index: 10;
         }
 
         .flower {
             position: absolute;
             font-size: 30px;
+            z-index: 10;
         }
     </style>
 </head>
@@ -147,7 +144,7 @@
     <h1 class="text-3xl font-bold text-green-800 mb-2 text-center">Конспект уроку</h1>
     <h2 class="text-xl text-green-600 mb-8 text-center">Готуємося до контрольної роботи 🐣</h2>
 
-    <!-- Декорації -->
+    <!-- Великодні декорації -->
     <div class="egg" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
     <div class="egg" style="top: 20%; right: 10%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
     <div class="flower" style="bottom: 15%; left: 10%;">🌸</div>
@@ -156,13 +153,13 @@
     <div class="book-container">
         <div class="book" id="book">
             
-            <!-- Сторінка 3 (остання) -->
+            <!-- Сторінка 3 -->
             <div class="page" onclick="flipPage(this)">
                 <div class="page-content bg-white">
                     <div class="pdf-icon">📄</div>
                     <h3 class="text-xl font-bold text-gray-800">Матеріал 3.pdf</h3>
-                    <p class="text-center text-gray-600">Практичні завдання та вправи для самоперевірки.</p>
-                    <a href="3.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити повний PDF</a>
+                    <p class="text-center text-gray-600">Практичні завдання та вправи для самоперевірки знань.</p>
+                    <a href="3.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 3.pdf</a>
                     <span class="page-number">Сторінка 3</span>
                 </div>
                 <div class="page-back"></div>
@@ -173,8 +170,8 @@
                 <div class="page-content bg-white">
                     <div class="pdf-icon">📄</div>
                     <h3 class="text-xl font-bold text-gray-800">Матеріал 2.pdf</h3>
-                    <p class="text-center text-gray-600">Алгоритми розв'язання типових задач.</p>
-                    <a href="2.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити повний PDF</a>
+                    <p class="text-center text-gray-600">Алгоритми розв'язання типових задач та прикладів.</p>
+                    <a href="2.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 2.pdf</a>
                     <span class="page-number">Сторінка 2</span>
                 </div>
                 <div class="page-back"></div>
@@ -185,8 +182,8 @@
                 <div class="page-content bg-white">
                     <div class="pdf-icon">📄</div>
                     <h3 class="text-xl font-bold text-gray-800">Матеріал 1.pdf</h3>
-                    <p class="text-center text-gray-600">Теоретичний мінімум: основні формули та поняття.</p>
-                    <a href="1.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити повний PDF</a>
+                    <p class="text-center text-gray-600">Теоретичний мінімум: основні формули, правила та поняття.</p>
+                    <a href="1.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 1.pdf</a>
                     <span class="page-number">Сторінка 1</span>
                 </div>
                 <div class="page-back"></div>
@@ -198,7 +195,7 @@
                     <div class="text-6xl mb-4">📖</div>
                     <h2 class="text-2xl font-bold text-yellow-800 text-center">План підготовки</h2>
                     <div class="w-16 h-1 bg-yellow-400 my-4"></div>
-                    <p class="text-center italic text-gray-700">Натисніть на обкладинку, щоб почати перегляд матеріалів</p>
+                    <p class="text-center italic text-gray-700">Натисніть, щоб переглянути листки конспекту</p>
                     <div class="mt-8 text-4xl">🪺</div>
                 </div>
                 <div class="page-back"></div>
@@ -209,7 +206,7 @@
 
     <button class="btn-reset" onclick="resetBook()">Закрити журнал</button>
 
-    <!-- Звук листання (Base64 короткий звук паперу) -->
+    <!-- Аудіо для звуку листання -->
     <audio id="pageFlipSound" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" type="audio/mpeg">
     </audio>
@@ -217,6 +214,7 @@
     <script>
         const flipSound = document.getElementById('pageFlipSound');
 
+        // Функція перегортання
         function flipPage(pageElement) {
             if (!pageElement.classList.contains('flipped')) {
                 pageElement.classList.add('flipped');
@@ -224,21 +222,25 @@
             }
         }
 
+        // Повернення журналу в початковий стан
         function resetBook() {
-            const pages = document.querySelectorAll('.page');
+            const pages = Array.from(document.querySelectorAll('.page'));
             pages.forEach((page, index) => {
                 setTimeout(() => {
                     if (page.classList.contains('flipped')) {
                         page.classList.remove('flipped');
                         playSound();
                     }
-                }, (pages.length - index) * 150);
+                }, index * 150);
             });
         }
 
+        // Відтворення звуку
         function playSound() {
             flipSound.currentTime = 0;
-            flipSound.play().catch(e => console.log("Audio play blocked by browser interaction policy"));
+            flipSound.play().catch(e => {
+                console.warn("Звук заблоковано браузером до першої взаємодії користувача");
+            });
         }
     </script>
 </body>
