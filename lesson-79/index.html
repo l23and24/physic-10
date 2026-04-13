@@ -20,6 +20,7 @@
             justify-content: center;
             overflow-x: hidden;
             margin: 0;
+            padding: 20px;
         }
 
         .book-container {
@@ -27,7 +28,15 @@
             width: 450px;
             height: 600px;
             perspective: 2000px;
-            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Адаптація для мобільних пристроїв */
+        @media (max-width: 500px) {
+            .book-container {
+                width: 320px;
+                height: 450px;
+            }
         }
 
         .book {
@@ -61,13 +70,15 @@
             backface-visibility: hidden;
             border-radius: 0 15px 15px 0;
             overflow: hidden;
+            background: white;
         }
 
-        /* Стиль для PDF всередині сторінки */
         .pdf-viewer {
             width: 100%;
             height: 100%;
             border: none;
+            /* Запобігання перехопленню кліків на мобільних, щоб можна було гортати */
+            pointer-events: auto;
         }
 
         .page-back {
@@ -84,94 +95,84 @@
             transform: rotateY(-180deg);
         }
 
-        /* Правильний порядок шарів для гортання з першої сторінки */
-        .page:nth-child(1) { z-index: 4; } /* Обкладинка */
-        .page:nth-child(2) { z-index: 3; } /* 1.pdf */
-        .page:nth-child(3) { z-index: 2; } /* 2.pdf */
-        .page:nth-child(4) { z-index: 1; } /* 3.pdf */
+        /* Початкові z-індекси */
+        .page:nth-child(1) { z-index: 10; } /* Обкладинка */
+        .page:nth-child(2) { z-index: 9; }  /* 1.pdf */
+        .page:nth-child(3) { z-index: 8; }  /* 2.pdf */
+        .page:nth-child(4) { z-index: 7; }  /* 3.pdf */
 
         .btn-reset {
             margin-top: 30px;
-            padding: 10px 25px;
+            padding: 12px 30px;
             background: #10b981;
             color: white;
             border-radius: 99px;
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.2s;
-            z-index: 50;
-        }
-
-        /* Декорації */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+            z-index: 100;
         }
 
         .egg {
             position: absolute;
-            width: 50px;
-            height: 70px;
+            width: 40px;
+            height: 55px;
             background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             animation: float 4s ease-in-out infinite;
-            z-index: 0;
+            z-index: -1;
         }
 
-        .flower {
-            position: absolute;
-            font-size: 30px;
-            z-index: 0;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
         }
     </style>
 </head>
 <body>
 
-    <h1 class="text-3xl font-bold text-green-800 mb-2 text-center">Конспект уроку</h1>
-    <h2 class="text-xl text-green-600 mb-8 text-center">Готуємося до контрольної роботи 🐣</h2>
+    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">Конспект уроку</h1>
+    <h2 class="text-lg md:text-xl text-green-600 mb-6 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
 
     <!-- Декорації -->
-    <div class="egg" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
-    <div class="egg" style="top: 20%; right: 10%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
-    <div class="flower" style="bottom: 15%; left: 10%;">🌸</div>
-    <div class="flower" style="bottom: 20%; right: 15%;">🌷</div>
+    <div class="egg" style="top: 10%; left: 5%;"></div>
+    <div class="egg" style="top: 15%; right: 5%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
 
     <div class="book-container">
         <div class="book" id="book">
             
-            <!-- 1. ОБКЛАДИНКА (йде першою) -->
-            <div class="page" onclick="flipPage(this)">
-                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-10">
-                    <div class="text-8xl mb-6">📖</div>
-                    <h2 class="text-3xl font-bold text-yellow-800 text-center uppercase tracking-wider">План підготовки</h2>
-                    <div class="w-24 h-1.5 bg-yellow-400 my-6"></div>
-                    <p class="text-center italic text-gray-700 text-lg">Гортайте сторінки для перегляду матеріалів</p>
-                    <div class="mt-12 text-5xl">🪺</div>
+            <!-- 1. ОБКЛАДИНКА -->
+            <div class="page" onclick="handleFlip(this)">
+                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10">
+                    <div class="text-6xl md:text-8xl mb-4">📖</div>
+                    <h2 class="text-xl md:text-3xl font-bold text-yellow-800 text-center uppercase">План підготовки</h2>
+                    <div class="w-16 md:w-24 h-1.5 bg-yellow-400 my-4"></div>
+                    <p class="text-center italic text-gray-700 text-sm md:text-lg">Гортайте сторінки</p>
+                    <div class="mt-6 text-4xl">🪺</div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- 2. СТОРІНКА 1 (1.pdf) -->
-            <div class="page" onclick="flipPage(this)">
+            <div class="page" onclick="handleFlip(this)">
                 <div class="page-content">
-                    <iframe src="1.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
+                    <iframe src="1.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- 3. СТОРІНКА 2 (2.pdf) -->
-            <div class="page" onclick="flipPage(this)">
+            <div class="page" onclick="handleFlip(this)">
                 <div class="page-content">
-                    <iframe src="2.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
+                    <iframe src="2.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- 4. СТОРІНКА 3 (3.pdf) -->
-            <div class="page" onclick="flipPage(this)">
+            <div class="page" onclick="handleFlip(this)">
                 <div class="page-content">
-                    <iframe src="3.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
+                    <iframe src="3.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
@@ -179,9 +180,8 @@
         </div>
     </div>
 
-    <button class="btn-reset" onclick="resetBook()">Повернутися до початку</button>
+    <button class="btn-reset" onclick="resetBook()">На початок</button>
 
-    <!-- Аудіо для звуку листання -->
     <audio id="pageFlipSound" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" type="audio/mpeg">
     </audio>
@@ -189,26 +189,28 @@
     <script>
         const flipSound = document.getElementById('pageFlipSound');
 
-        function flipPage(pageElement) {
-            // Перегортаємо тільки якщо це верхня сторінка (поточна)
-            if (!pageElement.classList.contains('flipped')) {
-                pageElement.classList.add('flipped');
-                // Знижуємо z-index після анімації, щоб можна було клікнути наступну
-                setTimeout(() => {
-                    pageElement.style.zIndex = parseInt(window.getComputedStyle(pageElement).zIndex) - 10;
-                }, 500);
+        function handleFlip(page) {
+            if (!page.classList.contains('flipped')) {
+                page.classList.add('flipped');
                 playSound();
+                
+                // Важливо для GitHub/Мобільних: знижуємо z-index після завершення анімації
+                // щоб наступна сторінка стала доступною для кліку
+                setTimeout(() => {
+                    page.style.zIndex = "1";
+                }, 600);
             }
         }
 
         function resetBook() {
-            const pages = Array.from(document.querySelectorAll('.page')).reverse();
-            pages.forEach((page, index) => {
+            const pages = Array.from(document.querySelectorAll('.page'));
+            // Повертаємо сторінки в зворотному порядку
+            pages.reverse().forEach((page, index) => {
                 setTimeout(() => {
                     if (page.classList.contains('flipped')) {
                         page.classList.remove('flipped');
-                        // Повертаємо початковий z-index
-                        page.style.zIndex = pages.length - index;
+                        // Повертаємо оригінальний z-index залежно від позиції
+                        page.style.zIndex = (pages.length - index).toString();
                         playSound();
                     }
                 }, index * 150);
@@ -217,7 +219,7 @@
 
         function playSound() {
             flipSound.currentTime = 0;
-            flipSound.play().catch(e => console.log("Audio play blocked"));
+            flipSound.play().catch(() => {}); // Ігноруємо помилки автоплею
         }
     </script>
 </body>
