@@ -71,7 +71,6 @@
             background: white;
         }
 
-        /* Прозорий шар поверх PDF для перехоплення кліку */
         .click-layer {
             position: absolute;
             inset: 0;
@@ -100,11 +99,12 @@
             transform: rotateY(-180deg);
         }
 
-        /* Початкове розшарування сторінок */
-        #p1 { z-index: 40; }
-        #p2 { z-index: 30; }
-        #p3 { z-index: 20; }
-        #p4 { z-index: 10; }
+        /* Початкове розшарування сторінок (5 сторінок тепер) */
+        #p1 { z-index: 50; }
+        #p2 { z-index: 40; }
+        #p3 { z-index: 30; }
+        #p4 { z-index: 20; }
+        #p5 { z-index: 10; }
 
         .btn-reset {
             margin-top: 30px;
@@ -146,7 +146,7 @@
         <div class="book" id="book">
             
             <!-- СТОРІНКА 1: ОБКЛАДИНКА -->
-            <div id="p1" class="page" onclick="handleFlip(this, 40)">
+            <div id="p1" class="page" onclick="handleFlip(this)">
                 <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10">
                     <div class="text-6xl md:text-8xl mb-4">📖</div>
                     <h2 class="text-xl md:text-3xl font-bold text-yellow-800 text-center uppercase">План підготовки</h2>
@@ -158,7 +158,7 @@
             </div>
 
             <!-- СТОРІНКА 2: 1.pdf -->
-            <div id="p2" class="page" onclick="handleFlip(this, 30)">
+            <div id="p2" class="page" onclick="handleFlip(this)">
                 <div class="page-content">
                     <div class="click-layer"></div>
                     <iframe src="1.pdf#view=FitH" class="pdf-viewer"></iframe>
@@ -167,7 +167,7 @@
             </div>
 
             <!-- СТОРІНКА 3: 2.pdf -->
-            <div id="p3" class="page" onclick="handleFlip(this, 20)">
+            <div id="p3" class="page" onclick="handleFlip(this)">
                 <div class="page-content">
                     <div class="click-layer"></div>
                     <iframe src="2.pdf#view=FitH" class="pdf-viewer"></iframe>
@@ -176,10 +176,22 @@
             </div>
 
             <!-- СТОРІНКА 4: 3.pdf -->
-            <div id="p4" class="page" onclick="handleFlip(this, 10)">
+            <div id="p4" class="page" onclick="handleFlip(this)">
                 <div class="page-content">
                     <div class="click-layer"></div>
                     <iframe src="3.pdf#view=FitH" class="pdf-viewer"></iframe>
+                </div>
+                <div class="page-back"></div>
+            </div>
+
+            <!-- СТОРІНКА 5: ФІНАЛ -->
+            <div id="p5" class="page" onclick="handleFlip(this)">
+                <div class="page-content bg-green-50 border-4 border-green-200 items-center justify-center p-6 md:p-10">
+                    <div class="text-6xl md:text-7xl mb-6 text-center">🎉</div>
+                    <p class="text-xl md:text-2xl font-bold text-green-800 text-center leading-relaxed">
+                        Ось і казочці кінець, а хто до контрольної роботи підготувався — молодець!
+                    </p>
+                    <div class="mt-8 text-5xl">🐰🌸</div>
                 </div>
                 <div class="page-back"></div>
             </div>
@@ -196,13 +208,11 @@
     <script>
         const flipSound = document.getElementById('pageFlipSound');
 
-        function handleFlip(page, originalZ) {
+        function handleFlip(page) {
             if (!page.classList.contains('flipped')) {
                 page.classList.add('flipped');
                 playSound();
                 
-                // Після анімації робимо сторінку "невидимою" для кліків, 
-                // щоб можна було натиснути ту, що під нею
                 setTimeout(() => {
                     page.style.zIndex = "1";
                 }, 600);
@@ -214,9 +224,10 @@
             const p2 = document.getElementById('p2');
             const p3 = document.getElementById('p3');
             const p4 = document.getElementById('p4');
+            const p5 = document.getElementById('p5');
             
-            const pages = [p4, p3, p2, p1];
-            const zIndices = [10, 20, 30, 40];
+            const pages = [p5, p4, p3, p2, p1];
+            const zIndices = [10, 20, 30, 40, 50];
 
             pages.forEach((page, index) => {
                 setTimeout(() => {
@@ -225,7 +236,7 @@
                         page.style.zIndex = zIndices[index];
                         playSound();
                     }
-                }, index * 200);
+                }, index * 150);
             });
         }
 
