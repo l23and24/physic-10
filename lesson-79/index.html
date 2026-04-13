@@ -24,9 +24,9 @@
 
         .book-container {
             position: relative;
-            width: 400px;
-            height: 550px;
-            perspective: 1500px;
+            width: 450px;
+            height: 600px;
+            perspective: 2000px;
             margin-top: 20px;
         }
 
@@ -35,7 +35,6 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s;
         }
 
         .page {
@@ -48,7 +47,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transform-origin: left;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
             cursor: pointer;
             border-radius: 0 15px 15px 0;
             user-select: none;
@@ -57,13 +56,18 @@
         .page-content {
             position: absolute;
             inset: 0;
-            padding: 40px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
             backface-visibility: hidden;
-            border: 2px solid #fef3c7;
+            border-radius: 0 15px 15px 0;
+            overflow: hidden;
+        }
+
+        /* Стиль для PDF всередині сторінки */
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .page-back {
@@ -73,23 +77,18 @@
             transform: rotateY(180deg);
             backface-visibility: hidden;
             border-radius: 15px 0 0 15px;
+            border-right: 2px solid #ddd;
         }
 
         .page.flipped {
             transform: rotateY(-180deg);
         }
 
-        /* Порядок сторінок */
-        .page:nth-child(1) { z-index: 5; }
-        .page:nth-child(2) { z-index: 4; }
-        .page:nth-child(3) { z-index: 3; }
-        .page:nth-child(4) { z-index: 2; }
-
-        .pdf-icon {
-            font-size: 80px;
-            color: #ef4444;
-            margin-bottom: 20px;
-        }
+        /* Правильний порядок шарів для гортання з першої сторінки */
+        .page:nth-child(1) { z-index: 4; } /* Обкладинка */
+        .page:nth-child(2) { z-index: 3; } /* 1.pdf */
+        .page:nth-child(3) { z-index: 2; } /* 2.pdf */
+        .page:nth-child(4) { z-index: 1; } /* 3.pdf */
 
         .btn-reset {
             margin-top: 30px;
@@ -100,22 +99,10 @@
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.2s;
+            z-index: 50;
         }
 
-        .btn-reset:hover {
-            transform: translateY(-2px);
-            background: #059669;
-        }
-
-        .page-number {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 14px;
-            color: #9ca3af;
-        }
-
-        /* Анімація Великодніх яєць */
+        /* Декорації */
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(10deg); }
@@ -129,13 +116,13 @@
             background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             animation: float 4s ease-in-out infinite;
-            z-index: 10;
+            z-index: 0;
         }
 
         .flower {
             position: absolute;
             font-size: 30px;
-            z-index: 10;
+            z-index: 0;
         }
     </style>
 </head>
@@ -144,7 +131,7 @@
     <h1 class="text-3xl font-bold text-green-800 mb-2 text-center">Конспект уроку</h1>
     <h2 class="text-xl text-green-600 mb-8 text-center">Готуємося до контрольної роботи 🐣</h2>
 
-    <!-- Великодні декорації -->
+    <!-- Декорації -->
     <div class="egg" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
     <div class="egg" style="top: 20%; right: 10%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
     <div class="flower" style="bottom: 15%; left: 10%;">🌸</div>
@@ -153,50 +140,38 @@
     <div class="book-container">
         <div class="book" id="book">
             
-            <!-- Сторінка 3 -->
+            <!-- 1. ОБКЛАДИНКА (йде першою) -->
             <div class="page" onclick="flipPage(this)">
-                <div class="page-content bg-white">
-                    <div class="pdf-icon">📄</div>
-                    <h3 class="text-xl font-bold text-gray-800">Матеріал 3.pdf</h3>
-                    <p class="text-center text-gray-600">Практичні завдання та вправи для самоперевірки знань.</p>
-                    <a href="3.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 3.pdf</a>
-                    <span class="page-number">Сторінка 3</span>
+                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-10">
+                    <div class="text-8xl mb-6">📖</div>
+                    <h2 class="text-3xl font-bold text-yellow-800 text-center uppercase tracking-wider">План підготовки</h2>
+                    <div class="w-24 h-1.5 bg-yellow-400 my-6"></div>
+                    <p class="text-center italic text-gray-700 text-lg">Гортайте сторінки для перегляду матеріалів</p>
+                    <div class="mt-12 text-5xl">🪺</div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- Сторінка 2 -->
+            <!-- 2. СТОРІНКА 1 (1.pdf) -->
             <div class="page" onclick="flipPage(this)">
-                <div class="page-content bg-white">
-                    <div class="pdf-icon">📄</div>
-                    <h3 class="text-xl font-bold text-gray-800">Матеріал 2.pdf</h3>
-                    <p class="text-center text-gray-600">Алгоритми розв'язання типових задач та прикладів.</p>
-                    <a href="2.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 2.pdf</a>
-                    <span class="page-number">Сторінка 2</span>
+                <div class="page-content">
+                    <iframe src="1.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- Сторінка 1 -->
+            <!-- 3. СТОРІНКА 2 (2.pdf) -->
             <div class="page" onclick="flipPage(this)">
-                <div class="page-content bg-white">
-                    <div class="pdf-icon">📄</div>
-                    <h3 class="text-xl font-bold text-gray-800">Матеріал 1.pdf</h3>
-                    <p class="text-center text-gray-600">Теоретичний мінімум: основні формули, правила та поняття.</p>
-                    <a href="1.pdf" target="_blank" class="text-blue-500 underline" onclick="event.stopPropagation()">Відкрити 1.pdf</a>
-                    <span class="page-number">Сторінка 1</span>
+                <div class="page-content">
+                    <iframe src="2.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- Обкладинка -->
+            <!-- 4. СТОРІНКА 3 (3.pdf) -->
             <div class="page" onclick="flipPage(this)">
-                <div class="page-content bg-yellow-50 border-4 border-yellow-200">
-                    <div class="text-6xl mb-4">📖</div>
-                    <h2 class="text-2xl font-bold text-yellow-800 text-center">План підготовки</h2>
-                    <div class="w-16 h-1 bg-yellow-400 my-4"></div>
-                    <p class="text-center italic text-gray-700">Натисніть, щоб переглянути листки конспекту</p>
-                    <div class="mt-8 text-4xl">🪺</div>
+                <div class="page-content">
+                    <iframe src="3.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
@@ -204,7 +179,7 @@
         </div>
     </div>
 
-    <button class="btn-reset" onclick="resetBook()">Закрити журнал</button>
+    <button class="btn-reset" onclick="resetBook()">Повернутися до початку</button>
 
     <!-- Аудіо для звуку листання -->
     <audio id="pageFlipSound" preload="auto">
@@ -214,33 +189,35 @@
     <script>
         const flipSound = document.getElementById('pageFlipSound');
 
-        // Функція перегортання
         function flipPage(pageElement) {
+            // Перегортаємо тільки якщо це верхня сторінка (поточна)
             if (!pageElement.classList.contains('flipped')) {
                 pageElement.classList.add('flipped');
+                // Знижуємо z-index після анімації, щоб можна було клікнути наступну
+                setTimeout(() => {
+                    pageElement.style.zIndex = parseInt(window.getComputedStyle(pageElement).zIndex) - 10;
+                }, 500);
                 playSound();
             }
         }
 
-        // Повернення журналу в початковий стан
         function resetBook() {
-            const pages = Array.from(document.querySelectorAll('.page'));
+            const pages = Array.from(document.querySelectorAll('.page')).reverse();
             pages.forEach((page, index) => {
                 setTimeout(() => {
                     if (page.classList.contains('flipped')) {
                         page.classList.remove('flipped');
+                        // Повертаємо початковий z-index
+                        page.style.zIndex = pages.length - index;
                         playSound();
                     }
                 }, index * 150);
             });
         }
 
-        // Відтворення звуку
         function playSound() {
             flipSound.currentTime = 0;
-            flipSound.play().catch(e => {
-                console.warn("Звук заблоковано браузером до першої взаємодії користувача");
-            });
+            flipSound.play().catch(e => console.log("Audio play blocked"));
         }
     </script>
 </body>
