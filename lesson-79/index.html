@@ -18,7 +18,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
+            overflow: hidden;
             margin: 0;
             padding: 10px;
         }
@@ -54,8 +54,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transform-origin: left;
             transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
             border-radius: 0 15px 15px 0;
         }
 
@@ -70,28 +69,6 @@
             background: white;
         }
 
-        .click-layer {
-            position: absolute;
-            top: 0;
-            width: 15%;
-            height: 100%;
-            z-index: 30;
-            background: transparent;
-        }
-
-        .pdf-container {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .pdf-viewer {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
         .page-back {
             position: absolute;
             inset: 0;
@@ -104,131 +81,173 @@
 
         .page.flipped {
             transform: rotateY(-180deg);
+            z-index: 0 !important;
         }
 
-        /* Розшарування сторінок (всього 7 сторінок) */
-        #p1 { z-index: 70; }
-        #p2 { z-index: 60; }
-        #p3 { z-index: 50; }
-        #p4 { z-index: 40; }
-        #p5 { z-index: 30; }
-        #p6 { z-index: 20; }
-        #p7 { z-index: 10; }
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 2px solid white;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:active { transform: translateY(-50%) scale(0.9); }
+        .nav-btn-right { right: -22px; }
+        .nav-btn-left { left: -22px; display: none; }
+
+        .pdf-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
         .btn-reset {
-            margin-top: 25px;
-            padding: 10px 25px;
+            margin-top: 20px;
+            padding: 10px 24px;
             background: #10b981;
             color: white;
             border-radius: 99px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.2s;
             z-index: 100;
         }
 
-        .egg {
-            position: absolute;
-            width: 40px;
-            height: 55px;
-            background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: float 4s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
+        /* Чітке розшарування */
+        #p1 { z-index: 7; }
+        #p2 { z-index: 6; }
+        #p3 { z-index: 5; }
+        #p4 { z-index: 4; }
+        #p5 { z-index: 3; }
+        #p6 { z-index: 2; }
+        #p7 { z-index: 1; }
     </style>
 </head>
 <body>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-1 text-center text-balance px-4">Конспект уроку</h1>
-    <h2 class="text-lg md:text-xl text-green-600 mb-4 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
-
-    <div class="egg" style="top: 10%; left: 5%;"></div>
-    <div class="egg" style="top: 15%; right: 5%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
+    <h1 class="text-2xl font-bold text-green-800 mb-1 text-center">Конспект уроку</h1>
+    <p class="text-green-600 mb-4 text-center">Гортайте стрілками 🐣</p>
 
     <div class="book-container">
+        <div id="btnNext" class="nav-btn nav-btn-right" onclick="flipNext()">▶</div>
+        <div id="btnPrev" class="nav-btn nav-btn-left" onclick="flipPrev()">◀</div>
+
         <div class="book" id="book">
             
-            <!-- СТОРІНКА 1: ОБКЛАДИНКА -->
-            <div id="p1" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10 text-center">
-                    <div class="text-6xl md:text-8xl mb-4">📖</div>
-                    <h2 class="text-xl md:text-3xl font-bold text-yellow-800 uppercase">План підготовки</h2>
-                    <div class="w-16 md:w-24 h-1.5 bg-yellow-400 my-4 mx-auto"></div>
-                    <p class="italic text-gray-700 text-sm md:text-lg">Торкніться, щоб відкрити</p>
-                    <div class="mt-6 text-4xl">🪺</div>
+            <!-- СТОРІНКА 1 -->
+            <div id="p1" class="page">
+                <div class="page-content bg-yellow-50 border-4 border-yellow-100 items-center justify-center p-6 text-center">
+                    <div class="text-7xl mb-4">📖</div>
+                    <h2 class="text-2xl font-bold text-yellow-800 uppercase">Підготовка</h2>
+                    <p class="text-yellow-600 mt-2">до контрольної роботи</p>
+                    <div class="mt-8 text-xs text-gray-400">Гортайте далі ▶</div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 2: Google Drive PDF 1 -->
+            <!-- СТОРІНКА 2 (PDF 1) -->
             <div id="p2" class="page">
                 <div class="page-content">
-                    <div class="pdf-container">
-                        <iframe src="https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/preview" class="pdf-viewer"></iframe>
-                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p2'))"></div>
-                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p2'))"></div>
+                    <div id="loader2" class="pdf-loading">
+                        <div class="spinner"></div>
+                        <p>Завантаження частини 1...</p>
                     </div>
+                    <div id="pdf2" class="iframe-container"></div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 3: Google Drive PDF 2 -->
+            <!-- СТОРІНКА 3 (PDF 2) -->
             <div id="p3" class="page">
                 <div class="page-content">
-                    <div class="pdf-container">
-                        <iframe src="https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/preview" class="pdf-viewer"></iframe>
-                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p3'))"></div>
-                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p3'))"></div>
+                    <div id="loader3" class="pdf-loading">
+                        <div class="spinner"></div>
+                        <p>Завантаження частини 2...</p>
                     </div>
+                    <div id="pdf3" class="iframe-container"></div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 4: Google Drive PDF 3 -->
+            <!-- СТОРІНКА 4 (PDF 3) -->
             <div id="p4" class="page">
                 <div class="page-content">
-                    <div class="pdf-container">
-                        <iframe src="https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/preview" class="pdf-viewer"></iframe>
-                        <div class="click-layer" style="right: 0;" onclick="handleFlip(document.getElementById('p4'))"></div>
-                        <div class="click-layer" style="left: 0;" onclick="handleFlip(document.getElementById('p4'))"></div>
+                    <div id="loader4" class="pdf-loading">
+                        <div class="spinner"></div>
+                        <p>Завантаження частини 3...</p>
                     </div>
+                    <div id="pdf4" class="iframe-container"></div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 5: Порада -->
-            <div id="p5" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-blue-50 border-4 border-blue-200 items-center justify-center p-6 md:p-10 text-center">
+            <!-- СТОРІНКА 5: ПОРАДА -->
+            <div id="p5" class="page">
+                <div class="page-content bg-blue-50 border-4 border-blue-100 items-center justify-center p-6 text-center">
                     <div class="text-5xl mb-4">💡</div>
                     <h2 class="text-xl font-bold text-blue-800 uppercase">Порада</h2>
-                    <p class="text-gray-700 mt-4">Натисніть на значок "квадрат зі стрілкою" у верхньому правому куті PDF, щоб розгорнути файл на весь екран.</p>
+                    <p class="text-gray-600 mt-4 text-sm leading-relaxed">Якщо файл завантажується занадто довго, ви можете відкрити його за прямим посиланням на наступній сторінці.</p>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- СТОРІНКА 6: Посилання -->
-            <div id="p6" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-orange-50 border-4 border-orange-200 items-center justify-center p-6 md:p-10 text-center">
+            <!-- СТОРІНКА 6: ПОСИЛАННЯ -->
+            <div id="p6" class="page">
+                <div class="page-content bg-orange-50 border-4 border-orange-100 items-center justify-center p-4 text-center">
                     <div class="text-5xl mb-4">🔗</div>
                     <h2 class="text-lg font-bold text-orange-800 uppercase">Прямі посилання</h2>
-                    <div class="flex flex-col gap-2 mt-4 w-full px-4">
-                        <a href="https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 1</a>
-                        <a href="https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 2</a>
-                        <a href="https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/view" target="_blank" class="bg-white border border-orange-300 py-2 px-3 rounded-lg text-xs font-medium">Частина 3</a>
+                    <div class="flex flex-col gap-3 mt-4 w-full px-6">
+                        <a href="https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/view" target="_blank" class="bg-white py-2 rounded-lg text-xs shadow-sm">Частина 1 (PDF)</a>
+                        <a href="https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/view" target="_blank" class="bg-white py-2 rounded-lg text-xs shadow-sm">Частина 2 (PDF)</a>
+                        <a href="https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/view" target="_blank" class="bg-white py-2 rounded-lg text-xs shadow-sm">Частина 3 (PDF)</a>
                     </div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
             <!-- СТОРІНКА 7: ФІНАЛ -->
-            <div id="p7" class="page" onclick="handleFlip(this)">
-                <div class="page-content bg-green-50 border-4 border-green-200 items-center justify-center p-6 md:p-10 text-center">
+            <div id="p7" class="page">
+                <div class="page-content bg-green-50 border-4 border-green-100 items-center justify-center p-6 text-center">
                     <div class="text-6xl mb-6">🎉</div>
                     <p class="text-xl font-bold text-green-800 leading-relaxed">
                         Ось і казочці кінець, а хто до контрольної роботи підготувався — молодець!
@@ -248,39 +267,93 @@
     </audio>
 
     <script>
+        let currentPage = 1;
+        const totalPages = 7;
         const flipSound = document.getElementById('pageFlipSound');
+        
+        const pdfUrls = {
+            2: 'https://drive.google.com/file/d/1q48Y9vZ4W2t7Js2lZ_YVkVvUvvQfvgqe/preview',
+            3: 'https://drive.google.com/file/d/1xJ8wofkSp18kObFkuTycyxrHDFcIa_Yk/preview',
+            4: 'https://drive.google.com/file/d/1yedGbRrj1-K5QVOWdoSnmvmkmQIE2fme/preview'
+        };
 
-        function handleFlip(page) {
-            if (!page.classList.contains('flipped')) {
+        function updateButtons() {
+            document.getElementById('btnPrev').style.display = currentPage > 1 ? 'flex' : 'none';
+            document.getElementById('btnNext').style.display = currentPage < totalPages ? 'flex' : 'none';
+        }
+
+        function flipNext() {
+            if (currentPage < totalPages) {
+                const page = document.getElementById('p' + currentPage);
                 page.classList.add('flipped');
                 playSound();
-                setTimeout(() => {
-                    page.style.zIndex = "1";
-                }, 600);
+                currentPage++;
+                
+                // Завантаження PDF при переході на сторінку
+                if (pdfUrls[currentPage]) {
+                    loadPagePDF(currentPage);
+                }
+                
+                updateButtons();
             }
         }
 
-        function resetBook() {
-            const ids = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'];
-            const pages = ids.map(id => document.getElementById(id));
-            const reversedPages = [...pages].reverse();
-            const zIndices = [10, 20, 30, 40, 50, 60, 70];
+        function flipPrev() {
+            if (currentPage > 1) {
+                currentPage--;
+                const page = document.getElementById('p' + currentPage);
+                page.classList.remove('flipped');
+                // Відновлюємо z-index після повернення
+                page.style.zIndex = (totalPages - currentPage + 1);
+                playSound();
+                updateButtons();
+            }
+        }
 
-            reversedPages.forEach((page, index) => {
+        function loadPagePDF(num) {
+            const container = document.getElementById('pdf' + num);
+            if (container.innerHTML === "") {
+                const url = pdfUrls[num];
+                container.innerHTML = `<iframe src="${url}" onload="showPDF(${num})"></iframe>`;
+            }
+        }
+
+        function showPDF(num) {
+            document.getElementById('loader' + num).style.display = 'none';
+            document.getElementById('pdf' + num).style.display = 'block';
+        }
+
+        function resetBook() {
+            // Закриваємо сторінки у зворотньому порядку
+            for (let i = currentPage - 1; i >= 1; i--) {
                 setTimeout(() => {
-                    if (page.classList.contains('flipped')) {
-                        page.classList.remove('flipped');
-                        page.style.zIndex = zIndices[index];
-                        playSound();
+                    const page = document.getElementById('p' + i);
+                    page.classList.remove('flipped');
+                    page.style.zIndex = (totalPages - i + 1);
+                    if (i === 1) {
+                        currentPage = 1;
+                        updateButtons();
                     }
-                }, index * 100);
-            });
+                    playSound();
+                }, (currentPage - i) * 100);
+            }
+            
+            // Очищення фреймів через паузу
+            setTimeout(() => {
+                [2, 3, 4].forEach(n => {
+                    document.getElementById('pdf' + n).innerHTML = "";
+                    document.getElementById('pdf' + n).style.display = "none";
+                    document.getElementById('loader' + n).style.display = "flex";
+                });
+            }, 1000);
         }
 
         function playSound() {
             flipSound.currentTime = 0;
             flipSound.play().catch(() => {});
         }
+        
+        updateButtons();
     </script>
 </body>
 </html>
