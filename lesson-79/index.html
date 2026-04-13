@@ -31,7 +31,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Адаптація для мобільних пристроїв */
         @media (max-width: 500px) {
             .book-container {
                 width: 320px;
@@ -59,7 +58,6 @@
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
             cursor: pointer;
             border-radius: 0 15px 15px 0;
-            user-select: none;
         }
 
         .page-content {
@@ -73,12 +71,19 @@
             background: white;
         }
 
+        /* Прозорий шар поверх PDF для перехоплення кліку */
+        .click-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            background: transparent;
+        }
+
         .pdf-viewer {
             width: 100%;
             height: 100%;
             border: none;
-            /* Запобігання перехопленню кліків на мобільних, щоб можна було гортати */
-            pointer-events: auto;
+            z-index: 10;
         }
 
         .page-back {
@@ -95,11 +100,11 @@
             transform: rotateY(-180deg);
         }
 
-        /* Початкові z-індекси */
-        .page:nth-child(1) { z-index: 10; } /* Обкладинка */
-        .page:nth-child(2) { z-index: 9; }  /* 1.pdf */
-        .page:nth-child(3) { z-index: 8; }  /* 2.pdf */
-        .page:nth-child(4) { z-index: 7; }  /* 3.pdf */
+        /* Початкове розшарування сторінок */
+        #p1 { z-index: 40; }
+        #p2 { z-index: 30; }
+        #p3 { z-index: 20; }
+        #p4 { z-index: 10; }
 
         .btn-reset {
             margin-top: 30px;
@@ -131,47 +136,49 @@
 </head>
 <body>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">Конспект уроку</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center text-balance">Конспект уроку</h1>
     <h2 class="text-lg md:text-xl text-green-600 mb-6 text-center px-4">Готуємося до контрольної роботи 🐣</h2>
 
-    <!-- Декорації -->
     <div class="egg" style="top: 10%; left: 5%;"></div>
     <div class="egg" style="top: 15%; right: 5%; background: radial-gradient(circle at 30% 30%, #ff99cc, #ff3399); animation-delay: 1s;"></div>
 
     <div class="book-container">
         <div class="book" id="book">
             
-            <!-- 1. ОБКЛАДИНКА -->
-            <div class="page" onclick="handleFlip(this)">
+            <!-- СТОРІНКА 1: ОБКЛАДИНКА -->
+            <div id="p1" class="page" onclick="handleFlip(this, 40)">
                 <div class="page-content bg-yellow-50 border-4 border-yellow-200 items-center justify-center p-6 md:p-10">
                     <div class="text-6xl md:text-8xl mb-4">📖</div>
                     <h2 class="text-xl md:text-3xl font-bold text-yellow-800 text-center uppercase">План підготовки</h2>
                     <div class="w-16 md:w-24 h-1.5 bg-yellow-400 my-4"></div>
-                    <p class="text-center italic text-gray-700 text-sm md:text-lg">Гортайте сторінки</p>
+                    <p class="text-center italic text-gray-700 text-sm md:text-lg">Торкніться, щоб відкрити</p>
                     <div class="mt-6 text-4xl">🪺</div>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- 2. СТОРІНКА 1 (1.pdf) -->
-            <div class="page" onclick="handleFlip(this)">
+            <!-- СТОРІНКА 2: 1.pdf -->
+            <div id="p2" class="page" onclick="handleFlip(this, 30)">
                 <div class="page-content">
+                    <div class="click-layer"></div>
                     <iframe src="1.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- 3. СТОРІНКА 2 (2.pdf) -->
-            <div class="page" onclick="handleFlip(this)">
+            <!-- СТОРІНКА 3: 2.pdf -->
+            <div id="p3" class="page" onclick="handleFlip(this, 20)">
                 <div class="page-content">
+                    <div class="click-layer"></div>
                     <iframe src="2.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
             </div>
 
-            <!-- 4. СТОРІНКА 3 (3.pdf) -->
-            <div class="page" onclick="handleFlip(this)">
+            <!-- СТОРІНКА 4: 3.pdf -->
+            <div id="p4" class="page" onclick="handleFlip(this, 10)">
                 <div class="page-content">
+                    <div class="click-layer"></div>
                     <iframe src="3.pdf#view=FitH" class="pdf-viewer"></iframe>
                 </div>
                 <div class="page-back"></div>
@@ -189,13 +196,13 @@
     <script>
         const flipSound = document.getElementById('pageFlipSound');
 
-        function handleFlip(page) {
+        function handleFlip(page, originalZ) {
             if (!page.classList.contains('flipped')) {
                 page.classList.add('flipped');
                 playSound();
                 
-                // Важливо для GitHub/Мобільних: знижуємо z-index після завершення анімації
-                // щоб наступна сторінка стала доступною для кліку
+                // Після анімації робимо сторінку "невидимою" для кліків, 
+                // щоб можна було натиснути ту, що під нею
                 setTimeout(() => {
                     page.style.zIndex = "1";
                 }, 600);
@@ -203,23 +210,28 @@
         }
 
         function resetBook() {
-            const pages = Array.from(document.querySelectorAll('.page'));
-            // Повертаємо сторінки в зворотному порядку
-            pages.reverse().forEach((page, index) => {
+            const p1 = document.getElementById('p1');
+            const p2 = document.getElementById('p2');
+            const p3 = document.getElementById('p3');
+            const p4 = document.getElementById('p4');
+            
+            const pages = [p4, p3, p2, p1];
+            const zIndices = [10, 20, 30, 40];
+
+            pages.forEach((page, index) => {
                 setTimeout(() => {
                     if (page.classList.contains('flipped')) {
                         page.classList.remove('flipped');
-                        // Повертаємо оригінальний z-index залежно від позиції
-                        page.style.zIndex = (pages.length - index).toString();
+                        page.style.zIndex = zIndices[index];
                         playSound();
                     }
-                }, index * 150);
+                }, index * 200);
             });
         }
 
         function playSound() {
             flipSound.currentTime = 0;
-            flipSound.play().catch(() => {}); // Ігноруємо помилки автоплею
+            flipSound.play().catch(() => {});
         }
     </script>
 </body>
